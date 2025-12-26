@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gaming Vibes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
+      background-size: 600% 600%;
+      animation: bgMove 12s ease infinite;
+      overflow: hidden;
+      color: white;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* CENTER CONTENT */
+    .container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      position: relative;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #00fff7;
+      text-shadow:
+        0 0 10px #00fff7,
+        0 0 20px #00fff7,
+        0 0 40px #00fff7;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #00fff7; }
+      to { text-shadow: 0 0 30px #00fff7; }
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 12px 30px;
+      border: 2px solid #00fff7;
+      background: transparent;
+      color: #00fff7;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      text-transform: uppercase;
+    }
+
+    .btn:hover {
+      background: #00fff7;
+      color: #000;
+      box-shadow: 0 0 20px #00fff7;
+    }
+
+    /* PARTICLES */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+
+  <div class="container">
+    <h1>Game Zone</h1>
+    <p>Enter the next level</p>
+    <button class="btn">Start</button>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        speedY: Math.random() * 1 + 0.5
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        ctx.fillStyle = "#00fff7";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.y += p.speedY;
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
+</html>
+
